@@ -1,0 +1,71 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'kotlin-android-extensions'
+
+//apply plugin: 'io.fabric'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "statistics_cash.fedka27.github.com.statisticscash"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug{
+            debuggable true
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation support(".constraint:constraint-layout", "1.1.2")
+
+    implementation support(":appcompat-v7")
+    implementation support(":recyclerview-v7")
+    implementation support(":design")
+
+    implementation kotlinx("kotlinx-coroutines-core")
+    implementation kotlinx("kotlinx-coroutines-android")
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:1.0.0"
+
+    implementation dagger("dagger")
+    kapt dagger("dagger-compiler")
+
+    implementation okhttp3("okhttp")
+    implementation okhttp3("logging-interceptor")
+    implementation retrofit2("converter-gson")
+    implementation(retrofit2("retrofit")) {
+        exclude module: 'okhttp'
+    }
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+
+//    implementation('com.crashlytics.sdk.android:crashlytics:2.9.3@aar') {
+//        transitive = true
+//    }
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
