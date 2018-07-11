@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
                 },
                 error = {
                     Log.e(localClassName, "error: $it")
+                    helloTextView.text = it
                 })
     }
 }
