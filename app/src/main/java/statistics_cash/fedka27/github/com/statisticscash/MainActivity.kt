@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 import statistics_cash.fedka27.github.com.statisticscash.business.interactors.main.MainInteractor
-import statistics_cash.fedka27.github.com.statisticscash.data.database.dto.note.NoteDto
+import statistics_cash.fedka27.github.com.statisticscash.data.dto.Note
 import statistics_cash.fedka27.github.com.statisticscash.di.ComponentProvider
 import javax.inject.Inject
 
@@ -23,37 +23,32 @@ class MainActivity : AppCompatActivity() {
 
         initListeners()
 
-        loadWithApi()
     }
 
     private fun initListeners() {
         loadButton.setOnClickListener {
             mainInteractor.getNotes(
                     success = {
-                        Log.i(localClassName, "notes: ${it.map { it.title }}")
+                        val lastNote = if (it.isEmpty()) null else it.last()
+
+                        val lastNoteMessage = if (lastNote != null) "Last note: ${lastNote.title}\n" +
+                                "created at: ${lastNote.getCreatedDateTime()}"
+                        else "Empty notes"
+
+                        val message = "size of note: ${it.size}\n" +
+                                lastNoteMessage
+                        Log.i(localClassName, message)
+                        helloTextView.text = message
                     })
         }
         insertRandom.setOnClickListener {
-            mainInteractor.insert(NoteDto.createRandom(),
-                    success = {
-                        Log.i(localClassName, "size of notes: $it")
+            mainInteractor.insert(Note.createRandom(),
+                    success = { note, size ->
+                        val message = "Created: ${note.title}\nsize of notes: $size"
+
+                        Log.i(localClassName, message)
+                        helloTextView.text = message
                     })
         }
-    }
-
-    private fun loadWithApi() {
-        mainInteractor.testAsync(
-                onNext = {
-                    Log.i(localClassName, "onNext: $it")
-                    helloTextView.text = it
-                },
-                success = {
-                    Log.i(localClassName, "success: $it")
-                    helloTextView.text = it
-                },
-                error = {
-                    Log.e(localClassName, "error: $it")
-                    helloTextView.text = it.localizedMessage
-                })
     }
 }

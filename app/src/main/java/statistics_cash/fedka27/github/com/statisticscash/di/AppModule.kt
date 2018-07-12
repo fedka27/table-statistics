@@ -8,7 +8,7 @@ import dagger.Provides
 import statistics_cash.fedka27.github.com.statisticscash.data.database.AppDatabase
 
 @Module
-class AppModule(private val application: Application){
+class AppModule(private val application: Application) {
 
     @AppScope
     @Provides
@@ -22,6 +22,8 @@ class AppModule(private val application: Application){
 
         return Room.databaseBuilder(context,
                 AppDatabase::class.java,
-                "db-table-statistics").build()
+                "db-table-statistics")
+                .fallbackToDestructiveMigration()
+                .build()
     }
 }
