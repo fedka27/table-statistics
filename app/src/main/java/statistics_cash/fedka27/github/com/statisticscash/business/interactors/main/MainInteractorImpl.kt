@@ -5,7 +5,7 @@ import kotlinx.coroutines.experimental.cancel
 import kotlinx.coroutines.experimental.delay
 import kotlinx.coroutines.experimental.launch
 import statistics_cash.fedka27.github.com.statisticscash.business.repositories.notes.NotesRepository
-import statistics_cash.fedka27.github.com.statisticscash.data.dto.note.NoteDto
+import statistics_cash.fedka27.github.com.statisticscash.data.database.dto.note.NoteDto
 import statistics_cash.fedka27.github.com.statisticscash.extentions.uiContext
 
 class MainInteractorImpl(
@@ -16,7 +16,7 @@ class MainInteractorImpl(
 
     override fun testAsync(onNext: (String) -> Unit,
                            success: (String) -> Unit,
-                           error: (String) -> Unit
+                           error: (Throwable) -> Unit
     ): Job {
         return launch(
                 context = uiContext,
@@ -35,7 +35,7 @@ class MainInteractorImpl(
                             }
                         } catch (e: IllegalStateException) {
                             coroutineContext.cancel()
-                            error.invoke(e.localizedMessage)
+                            error.invoke(e)
                             return@launch
                         }
                         onNext.invoke("$seconds")
@@ -46,11 +46,20 @@ class MainInteractorImpl(
                 })
     }
 
-    override fun getNotes(success: (List<NoteDto>) -> Unit) {
+    override fun getNotes(success: (List<NoteDto>) -> Unit,
+                          error: (Throwable) -> Unit) {
         launch(context = uiContext) {
             val notes = notesRepository.getNotes().await()
 
             success.invoke(notes)
+        }
+    }
+
+    override fun insert(noteDto: NoteDto, success: (Int) -> Unit, error: (Throwable) -> Unit) {
+        launch(context = uiContext) {
+            val size = notesRepository.insert(noteDto).await()
+
+            success.invoke(size)
         }
     }
 
