@@ -6,7 +6,7 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'kotlin-android-extensions'
 
-//apply plugin: 'io.fabric'
+//apply plugin: 'ioContext.fabric'
 
 android {
     compileSdkVersion 28
@@ -35,7 +35,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation support(".constraint:constraint-layout", "1.1.2")
-
     implementation support(":appcompat-v7")
     implementation support(":recyclerview-v7")
     implementation support(":design")
@@ -46,6 +45,9 @@ dependencies {
 
     implementation dagger("dagger")
     kapt dagger("dagger-compiler")
+
+    implementation roomDB("runtime")
+    kapt roomDB("compiler")
 
     implementation okhttp3("okhttp")
     implementation okhttp3("logging-interceptor")
