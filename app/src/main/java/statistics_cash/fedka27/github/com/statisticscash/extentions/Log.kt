@@ -9,15 +9,26 @@ fun Any.tag(): String = javaClass.simpleName
 
 fun Any.joinTag(tag: String): String = "$tag [${threadName()}]"
 
+fun Any.log_i(message: String) {
+    log_i(tag(), message)
+}
 
-fun Any.log_i(tag: String = tag(), message: String) {
+fun Any.log_d(message: String) {
+    log_d(tag(), message)
+}
+
+fun Any.log_e(message: String) {
+    log_e(tag(), message)
+}
+
+fun Any.log_i(tag: String, message: String) {
     Log.i(joinTag(tag), message)
 }
 
-fun Any.log_d(tag: String = tag(), message: String) {
+fun Any.log_d(tag: String, message: String) {
     Log.d(joinTag(tag), message)
 }
 
-fun Any.log_e(tag: String = tag(), message: String) {
+fun Any.log_e(tag: String, message: String) {
     Log.e(joinTag(tag), message)
 }
