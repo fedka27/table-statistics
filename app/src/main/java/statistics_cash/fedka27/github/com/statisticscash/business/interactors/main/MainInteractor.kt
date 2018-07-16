@@ -1,15 +1,13 @@
 package statistics_cash.fedka27.github.com.statisticscash.business.interactors.main
 
-import kotlinx.coroutines.experimental.Deferred
 import statistics_cash.fedka27.github.com.statisticscash.data.dto.Note
+import statistics_cash.fedka27.github.com.statisticscash.data.dto.NoteInsertResult
 
 interface MainInteractor {
 
-    fun getNotes(): Deferred<List<Note>>
+    suspend fun getNotes(): List<Note>
 
-    fun insert(note: Note,
-               success: (Note, Int) -> Unit,
-               error: (Throwable) -> Unit = {})
+    suspend fun insert(note: Note): NoteInsertResult
 
     /**
      * Cancel all jobs
