@@ -2,7 +2,6 @@ package statistics_cash.fedka27.github.com.statisticscash
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.experimental.launch
 import kotlinx.coroutines.experimental.withContext
@@ -10,6 +9,7 @@ import statistics_cash.fedka27.github.com.statisticscash.business.interactors.ma
 import statistics_cash.fedka27.github.com.statisticscash.data.dto.Note
 import statistics_cash.fedka27.github.com.statisticscash.di.ComponentProvider
 import statistics_cash.fedka27.github.com.statisticscash.extentions.ioContext
+import statistics_cash.fedka27.github.com.statisticscash.extentions.log_i
 import statistics_cash.fedka27.github.com.statisticscash.extentions.uiContext
 import javax.inject.Inject
 
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
                 val message = "Size of note: ${list.size}\n" +
                         lastNoteMessage
-                Log.i(localClassName, message)
+                log_i(localClassName, message)
                 helloTextView.text = message
             }
         }
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                 val message = "Created: ${note.title}\n" +
                         "Size of notes: $size"
 
-                Log.i(localClassName, message)
+                log_i(localClassName, message)
                 helloTextView.text = message
 
             }
