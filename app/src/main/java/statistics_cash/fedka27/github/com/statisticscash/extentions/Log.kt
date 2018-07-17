@@ -9,14 +9,30 @@ fun Any.tag(): String = javaClass.simpleName
 
 fun Any.joinTag(tag: String): String = "$tag [${threadName()}]"
 
+/**
+ * Print log in the default level - 'info'
+ * */
+fun Any.log(message: String) {
+    log_i(message)
+}
+
+/**
+ * Print log in the default level - 'info'
+ * */
 fun Any.log_i(message: String) {
     log_i(tag(), message)
 }
 
+/**
+ * Print log in the default level - 'debug'
+ * */
 fun Any.log_d(message: String) {
     log_d(tag(), message)
 }
 
+/**
+ * Print log in the default level - 'error'
+ * */
 fun Any.log_e(message: String) {
     log_e(tag(), message)
 }
