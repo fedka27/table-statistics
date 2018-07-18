@@ -2,14 +2,13 @@ package statistics_cash.fedka27.github.com.statisticscash
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.experimental.*
 import statistics_cash.fedka27.github.com.statisticscash.business.interactors.main.MainInteractor
+import statistics_cash.fedka27.github.com.statisticscash.business.providers.AppProvider
 import statistics_cash.fedka27.github.com.statisticscash.data.api.Api
-import statistics_cash.fedka27.github.com.statisticscash.data.api.requests.SignInRequest
-import statistics_cash.fedka27.github.com.statisticscash.data.api.responses.SignInResponse
 import statistics_cash.fedka27.github.com.statisticscash.data.dto.Note
+import statistics_cash.fedka27.github.com.statisticscash.data.dto.sign_in.SignIn
 import statistics_cash.fedka27.github.com.statisticscash.di.ComponentProvider
 import statistics_cash.fedka27.github.com.statisticscash.extentions.*
 import javax.inject.Inject
@@ -21,6 +20,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var api: Api
+
+    @Inject
+    lateinit var appProvider: AppProvider
 
     private val parentJob = Job()
 
@@ -51,35 +53,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @Throws(RuntimeException::class)
+    @Throws
     private fun testSignIn() {
-        launch(uiContext + parentJob) {
-            try {
-                val signInRequest = SignInRequest("Dmitriy.Kirsh@russianpost.ru", "1234")
+        launch(uiContext + parentJob + CoroutineExceptionHandler { _, throwable ->
+            throwable.toHumanThrowable(appProvider).apply { helloTextView.text = message }
+        }) {
 
-                val result = withContext(netContext) { api.signIn(signInRequest) }.await()
+            val user = withContext(netContext) { mainInteractor.signIn(SignIn("Dmitriy.Kirsh@russianpost.ru", "123")) }
 
-                //todo move to valid mapper
-                val json = result.errorBody()!!.string()
-                log("json: $json")
-                val resultResponse = Gson().fromJson(json, SignInResponse::class.java)!!
-                log("signInResponse: $resultResponse")
+            helloTextView.text = "Hello, ${user.fullName}!"
 
-                resultResponse.apply {
-                    if (!success) {
-                        val exception = exception
-
-                        throw RuntimeException(exception?.message)
-                    } else {
-                        helloTextView.text = "Hello, ${user.fullName}!"
-                    }
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-                helloTextView.text = e.message
-            }
         }
     }
+
 
     private fun loadNotes() {
         launch(uiContext + parentJob) {

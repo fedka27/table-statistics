@@ -2,13 +2,15 @@ package statistics_cash.fedka27.github.com.statisticscash.business.interactors.m
 
 import kotlinx.coroutines.experimental.Job
 import statistics_cash.fedka27.github.com.statisticscash.business.repositories.notes.NotesRepository
+import statistics_cash.fedka27.github.com.statisticscash.business.repositories.user.UserRepository
 import statistics_cash.fedka27.github.com.statisticscash.data.dto.Note
 import statistics_cash.fedka27.github.com.statisticscash.data.dto.NoteInsertResult
 import statistics_cash.fedka27.github.com.statisticscash.extentions.log_i
 
 class MainInteractorImpl(
-        private val notesRepository: NotesRepository
-) : MainInteractor {
+        private val notesRepository: NotesRepository,
+        private val userRepository: UserRepository
+) : MainInteractor, UserRepository by userRepository {
 
     val job = Job()
 
@@ -23,6 +25,7 @@ class MainInteractorImpl(
 
         return NoteInsertResult(note, size)
     }
+
 
     override fun cancel() {
         log_i("cancellation()")

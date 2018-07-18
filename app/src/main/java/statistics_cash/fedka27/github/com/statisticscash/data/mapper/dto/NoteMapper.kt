@@ -1,4 +1,4 @@
-package statistics_cash.fedka27.github.com.statisticscash.data.mapper
+package statistics_cash.fedka27.github.com.statisticscash.data.mapper.dto
 
 import statistics_cash.fedka27.github.com.statisticscash.data.database.dbo.note.NoteDbo
 import statistics_cash.fedka27.github.com.statisticscash.data.dto.Note

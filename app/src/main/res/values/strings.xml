@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StatisticsCash</string>
+    <string name="exception_network_offline">You are not connected to the Internet</string>
 </resources>

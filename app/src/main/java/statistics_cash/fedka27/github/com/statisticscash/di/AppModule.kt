@@ -5,6 +5,8 @@ import android.arch.persistence.room.Room
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import statistics_cash.fedka27.github.com.statisticscash.business.providers.AppProvider
+import statistics_cash.fedka27.github.com.statisticscash.business.providers.AppProviderImpl
 import statistics_cash.fedka27.github.com.statisticscash.data.database.AppDatabase
 
 @Module
@@ -25,5 +27,11 @@ class AppModule(private val application: Application) {
                 "db-table-statistics")
                 .fallbackToDestructiveMigration()
                 .build()
+    }
+
+    @AppScope
+    @Provides
+    fun provideAppProvider(context: Context): AppProvider {
+        return AppProviderImpl(context)
     }
 }

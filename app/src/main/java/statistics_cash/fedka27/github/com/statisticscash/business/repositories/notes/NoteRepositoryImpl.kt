@@ -2,7 +2,7 @@ package statistics_cash.fedka27.github.com.statisticscash.business.repositories.
 
 import statistics_cash.fedka27.github.com.statisticscash.data.database.notes.NotesDao
 import statistics_cash.fedka27.github.com.statisticscash.data.dto.Note
-import statistics_cash.fedka27.github.com.statisticscash.data.mapper.NoteMapper
+import statistics_cash.fedka27.github.com.statisticscash.data.mapper.dto.NoteMapper
 import statistics_cash.fedka27.github.com.statisticscash.extentions.toDateTimeFormat
 import java.util.*
 

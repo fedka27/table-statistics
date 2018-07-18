@@ -7,4 +7,4 @@ import java.io.Serializable
 data class SignInResponse(
         @SerializedName("user") val user: User,
         @SerializedName("accessToken") val accessToken: String
-) : ResultResponse(), Serializable
+) : BaseResponse(), Serializable

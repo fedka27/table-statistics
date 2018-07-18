@@ -1,5 +1,6 @@
 package statistics_cash.fedka27.github.com.statisticscash.di.api
 
+import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
@@ -11,8 +12,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import statistics_cash.fedka27.github.com.statisticscash.BuildConfig
 import statistics_cash.fedka27.github.com.statisticscash.data.api.Api
+import statistics_cash.fedka27.github.com.statisticscash.data.mapper.api.ApiMapper
 import statistics_cash.fedka27.github.com.statisticscash.di.AppScope
 import java.util.concurrent.TimeUnit
+
 
 @Module
 class ApiModule {
@@ -64,5 +67,11 @@ class ApiModule {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         return interceptor
+    }
+
+    @AppScope
+    @Provides
+    fun provideApiMapper(context: Context): ApiMapper {
+        return ApiMapper(context)
     }
 }
